@@ -1,0 +1,99 @@
+create table Products(id int primary key, product_name nvarchar(20), product_category nvarchar(20))
+create table Customer(id int, Customer_name nvarchar(20), gender nvarchar(20), Customer_city nvarchar(20), Customer_state nvarchar(20), customer_id int identity(90,1))
+create table Orders (id int, order_id varchar(20),customer_id int identity(90,1), order_status varchar(20))
+create table Account(id int, customer_id int identity(90,1), amount numeric(20,0), payment_mode nvarchar(20))
+
+
+
+insert into Products values(1,'Tshirt','Clothing')
+insert into Products values(2,'Chess','Toy')
+insert into Products values(3,'Dove Shampoo','Bath & Body')
+insert into Products values(4,'Skirt','Clothing')
+insert into Products values(5,'Study table', 'Furniture')
+insert into Products values(6,'Football','Toy')
+insert into Products values(7,'Deo','Bath & Body')
+insert into Products values(8, 'Chair','Furniture')
+insert into Products values(9,'Kurti','Clothing')
+insert into Products values(10,'Shoes','Clothing')
+
+insert into Customer values(1,'Anjali','F','Noida','UP')
+insert into Customer values(2,'Mehul','M','Noida','UP')
+insert into Customer values(3,'Nilesh','M','Allahabad','UP')
+insert into Customer values(4,'Nikhil','M','Kanpur','UP')
+insert into Customer values(5,'Naina','F','Muradabad','UP')
+insert into Customer values(6,'Parul','F','Chandigarh','HR')
+insert into Customer values(7,'Mohit','M','Dehradun','UK')
+insert into Customer values(8,'Mansi','F','New Delhi','DL')
+insert into Customer values(9,'Rohit','M','Pune','MH')
+insert into Customer values(10,'Shiva','F','Bhopal','MP')
+
+select * from Customer
+
+insert into Orders values(1,'A1','delivered')
+insert into Orders values(2,'A2','dispatched')
+insert into Orders values(3,'A3','delivered')
+insert into Orders values(4,'A4','shipped')
+insert into Orders values(5,'A5','received')
+insert into Orders values(6,'A6','delivered')
+insert into Orders values(7,'A7','dispatched')
+insert into Orders values(8,'A8','received')
+insert into Orders values(9,'A9','shipped')
+insert into Orders values(10,'A10','delivered')
+
+select * from Orders
+
+insert into Account values(1,500,'COD')
+insert into Account values(2,150,'UPI')
+insert into Account values(3,200,'COD')
+insert into Account values(4,300,'UPI')
+insert into Account values(5,4000,'UPI')
+insert into Account values(6,400,'COD')
+insert into Account values(7,120,'COD')
+insert into Account values(8,2000,'UPI')
+insert into Account values(9,600,'COD')
+insert into Account values(10,3000,'UPI')
+
+select * from Account
+
+create view P_view
+as
+select Customer_name,payment_mode,order_status
+from Customer as c
+inner join Account as a
+on c.id=a.id 
+inner join Orders as o
+on o.id=a.id
+where payment_mode='COD'
+
+select * from P_view
+
+create view Am_view
+as
+select amount,product_name,gender,order_id
+from Customer as c
+inner join Account as a
+on c.id=a.id 
+inner join Orders as o
+on o.id=a.id
+inner join Products as p
+on p.id=a.id
+
+select * from Am_view
+
+create view C_view
+as
+select amount,product_category,gender,order_id
+from Customer as c
+inner join Account as a
+on c.id=a.id 
+inner join Orders as o
+on o.id=a.id
+inner join Products as p
+on p.id=a.id
+where amount>1000 and gender='F'
+
+select * from C_view
+
+
+
+
