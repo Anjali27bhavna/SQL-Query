@@ -1,0 +1,38 @@
+create table Personal_Details(userid int primary key, name nvarchar(20), email nvarchar(20), job_name nvarchar(20))
+create table Official_Details(userid int, deptid int, dept_name nvarchar(20), floorno int)
+create table Salary_Details(userid int, salary int, deptid int)
+
+insert into Personal_Details values(1,'Frank','frank@gmail.com','President')
+insert into Personal_Details values(2,'Wade','wade@gmail.com','Analyst')
+insert into Personal_Details values(3,'Nitin','nitin@gmail.com','Supervisor')
+insert into Personal_Details values(4,'Jimmy','jimmy@gmail.com','Sales Rep')
+insert into Personal_Details values(5,'Alisha','alisha@gmail.com','SDE')
+
+insert into Official_Details values(1,120,'Personal',10)
+insert into Official_Details values(2,121,'Production',9)
+insert into Official_Details values(3,122,'Admin',1)
+insert into Official_Details values(4,123,'Sales',5)
+insert into Official_Details values(5,124,'Production',9)
+
+insert into Salary_Details values(1,80000, 120)
+insert into Salary_Details values(2,40000,121)
+insert into Salary_Details values(3,50000,122)
+insert into Salary_Details values(4,30000,123)
+insert into Salary_Details values(5,40000,124)
+
+select avg(salary) as AVG_Salary from Salary_Details
+
+select dept_name from Official_Details, Salary_Details where Salary_Details.userid=Official_Details.userid and salary>40000
+
+select distinct floorno from Official_Details
+
+select name, salary from  Personal_Details,Official_Details,Salary_Details where Salary_Details.userid=Official_Details.userid and Personal_Details.userid=Official_Details.userid
+
+select name from Personal_Details,Official_Details,Salary_Details where Salary_Details.userid=Official_Details.userid and Personal_Details.userid=Official_Details.userid
+and salary>40000
+
+select salary, name from  Personal_Details,Official_Details,Salary_Details where Salary_Details.userid=Official_Details.userid and Personal_Details.userid=Official_Details.userid
+and salary=(select max(salary) from Salary_Details)
+
+select * from Personal_Details where name='Jimmy'
+
