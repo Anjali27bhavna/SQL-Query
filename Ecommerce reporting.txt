@@ -1,0 +1,26 @@
+
+select customer_id from Orders 
+union
+select customer_id from Account 
+
+select customer_id from Orders where customer_id>95
+intersect
+select customer_id from Account
+
+select * from Am_view
+union
+select * from C_view
+
+select * from Customer where Customer_name in ('Mohit', 'Mansi')
+
+select * from Account where amount between 600 and 4000
+
+select * from Products where product_category is not null
+
+select * from Customer where Customer_name like 'm%'
+
+select * from Customer where Customer_name like '[NI]%'
+
+select * from Products where product_name like'%h%'
+
+select * from Orders where exists(select * from Account where Orders.customer_id=Account.customer_id)
