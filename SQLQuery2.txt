@@ -4,7 +4,6 @@ create table Orders (id int, order_id varchar(20),customer_id int identity(90,1)
 create table Account(id int, customer_id int identity(90,1), amount numeric(20,0), payment_mode nvarchar(20))
 
 
-
 insert into Products values(1,'Tshirt','Clothing')
 insert into Products values(2,'Chess','Toy')
 insert into Products values(3,'Dove Shampoo','Bath & Body')
