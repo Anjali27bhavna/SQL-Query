@@ -1,0 +1,90 @@
+
+
+create table products(id int primary key, product_name nvarchar(20), product_category nvarchar(20),quantity numeric(20))
+
+insert into products values(1,'Tshirt','Clothing',7)
+insert into products values(2,'Chess','Toy',2)
+insert into products values(3,'Dove Shampoo','Bath & Body',3)
+insert into products values(4,'Skirt','Clothing',7)
+insert into products values(5,'Study table', 'Furniture',5)
+insert into products values(6,'Football','Toy',10)
+insert into products values(7,'Deo','Bath & Body',15)
+insert into products values(8, 'Chair','Furniture',17)
+insert into products values(9,'Kurti','Clothing',6)
+insert into products values(10,'Shoes','Clothing',10)
+
+select * from products
+
+create table customer(id int, customer_name nvarchar(20), gender nvarchar(20), customer_city nvarchar(20), customer_id numeric primary key identity(90,1))
+
+insert into customer values(1,'Anjali','F','Noida')
+insert into customer values(2,'Mehul','M','Jaipur')
+insert into customer values(3,'Nilesh','M','Allahabad')
+insert into customer values(4,'Nikhil','M','Kanpur')
+insert into customer values(5,'Naina','F','Muradabad')
+insert into customer values(6,'Parul','F','Chandigarh')
+insert into customer values(7,'Mohit','M','Dehradun')
+insert into customer values(8,'Mansi','F','New Delhi')
+insert into customer values(9,'Rohit','M','Pune')
+insert into customer values(10,'Shiva','F','Bhopal')
+
+select * from customer
+
+create table Orders (id int, order_id varchar(20),customer_id numeric identity(90,1), order_status varchar(20),amount numeric(20,0),
+constraint fk_customerid foreign key(customer_id)
+references customer(customer_id),
+constraint fk_p_id foreign key(id)
+references products(id))
+
+insert into Orders values(1,'A1','delivered',500)
+insert into Orders values(2,'A2','dispatched',150)
+insert into Orders values(3,'A3','delivered',200)
+insert into Orders values(4,'A4','shipped',300)
+insert into Orders values(5,'A5','received',4000)
+insert into Orders values(6,'A6','delivered',120)
+insert into Orders values(7,'A7','dispatched',2000)
+insert into Orders values(8,'A8','received',600)
+insert into Orders values(9,'A9','shipped',3000)
+insert into Orders values(10,'A10','delivered',300)
+
+select * from Orders
+
+select sum(amount) as category_amount,product_category from Orders as o
+inner join Products as p
+on p.id=o.id
+group by product_category
+
+select product_category,count(*) from Products group by product_category
+
+select amount,Customer_city from Orders as o
+inner join Customer as c
+on c.id=o.id
+order by amount
+
+select * from Customer order by len(Customer_city)
+
+select product_name,sum(amount),product_category from Products as P
+inner join Orders as o
+on P.id=o.id
+group by product_category,product_name
+having sum(amount)>500
+
+select distinct(product_category) from Products
+
+select min(quantity) from Products
+
+select max(quantity) from Products
+
+select avg(amount) from Orders
+
+select * from Products order by quantity
+offset 4 rows
+fetch next 3 rows only
+
+
+
+
+
+
+
+
