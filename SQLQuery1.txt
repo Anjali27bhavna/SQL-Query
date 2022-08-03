@@ -36,3 +36,6 @@ and salary=(select max(salary) from Salary_Details)
 
 select * from Personal_Details where name='Jimmy'
 
+
+
+
