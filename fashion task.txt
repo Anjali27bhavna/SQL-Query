@@ -1,0 +1,94 @@
+create database fashion
+
+use fashion
+
+create table brands(brand_id int primary key identity, brand_name nvarchar(20))
+create table celebrity(c_id numeric primary key identity(100,1),c_name nvarchar(30))
+create table endorsments(brand_id int,c_id numeric, constraint fk_b_id foreign key (brand_id) references brands(brand_id),constraint fk_cid foreign key (c_id) references celebrity(c_id))
+
+insert into brands values('Levis')
+insert into brands values('BMW')
+insert into brands values('Puma')
+insert into brands values('Rolex')
+insert into brands values('Samsung')
+insert into brands values('Ginger')
+insert into brands values('H&M')
+insert into brands values('Nykaa')
+insert into brands values('Drools')
+insert into brands values('Mivi')
+
+insert into celebrity values('Deepika Padukon')
+insert into celebrity values('Sharukh Khan')
+insert into celebrity values('Ranveer Singh')
+insert into celebrity values('Kareena Kapoor')
+insert into celebrity values('Amir Khan')
+insert into celebrity values('Hrithik Roshan')
+insert into celebrity values('Raj Kumar Rao')
+insert into celebrity values('Katrina Kaif')
+insert into celebrity values('Janvi Kapoor')
+insert into celebrity values('Ayushman Khurana')
+
+insert into endorsments values(1,100)
+insert into endorsments values(3,103)
+insert into endorsments values(5,102)
+insert into endorsments values(1,107)
+insert into endorsments values(6,100)
+insert into endorsments values(7,108)
+insert into endorsments values(8,109)
+insert into endorsments values(6,109)
+insert into endorsments values(10,106)
+insert into endorsments values(9,102)
+
+--celebrities not endorsing any brand
+
+create procedure sp_no_edorsement
+as
+begin
+select c.c_name from endorsments as e
+right join celebrity as c
+on e.c_id=c.c_id
+where e.c_id is null
+end
+exec sp_no_edorsement
+
+
+--brands not endoesed by any celebrities
+
+create procedure sp_no_brands
+as
+begin
+select b.brand_name from endorsments as e
+right join brands as b
+on e.brand_id=b.brand_id 
+where e.brand_id is null
+end
+exec sp_no_brands
+
+
+--common brands endorsed by celebrities
+
+create procedure sp_common_brands
+as begin
+select b.brand_name from endorsments as e
+inner join brands as b
+on e.brand_id=b.brand_id 
+group by b.brand_name
+having count(b.brand_name)>1
+end
+exec sp_common_brands
+
+
+
+--celebrities endorsing multiple brands
+
+create procedure sp_common_celebrities
+as
+begin
+select c.c_name from endorsments as e
+inner join celebrity as c
+on e.c_id=c.c_id 
+group by c.c_name
+having count(c.c_name)>1
+end
+
+exec sp_common_celebrities
