@@ -1,0 +1,150 @@
+use fashion
+
+--trigger log for brands table
+
+create table brandlog(logid numeric identity(100,1),brand_id int constraint fk_b_log foreign key (brand_id) references brands(brand_id),operation nvarchar(20),updateddate date) 
+alter table brandlog alter column updateddate datetime
+select * from brandlog
+
+--insert trigger
+
+create trigger ins_brand
+on brands
+for insert
+as
+insert into brandlog(brand_id,operation,updateddate)
+select brand_id,'Data inserted',GETDATE()
+from inserted
+
+insert into brands values('Lux')
+
+--update trigger
+
+create trigger upd_brand
+on brands
+after update
+as
+insert into brandlog(brand_id,operation,updateddate)
+select brand_id,'Data updated',GETDATE()
+from deleted
+
+update brands set brand_name='Myntra' where brand_id=11
+
+select * from brandlog
+
+--delete trigger
+
+create trigger del_brand
+on brands
+instead of delete
+as
+insert into brandlog(brand_id,operation,updateddate)
+select brand_id,'Data deleted',GETDATE()
+from deleted
+
+delete from brands where brand_id=11
+
+select * from brandlog
+
+
+--trigger log for celebrity table
+
+create table celebritylog(logid numeric identity(100,1),c_id numeric constraint fk_c_log foreign key (c_id) references celebrity(c_id),operation nvarchar(20),updateddate datetime) 
+
+select * from celebritylog
+
+--insert trigger
+
+create trigger ins_celeb
+on celebrity
+for insert
+as
+insert into celebritylog(c_id,operation,updateddate)
+select c_id,'Data inserted',GETDATE()
+from inserted
+
+insert into celebrity values('Katy Perry')
+
+select * from celebritylog
+
+--update trigger
+
+create trigger upd_celeb
+on celebrity
+after update
+as
+insert into celebritylog(c_id,operation,updateddate)
+select c_id,'Data updated',GETDATE()
+from deleted
+
+update celebrity set c_name='Olyvia' where c_id=110
+
+select * from celebritylog
+
+--delete trigger
+
+create trigger del_celeb
+on celebrity
+instead of delete
+as
+insert into celebritylog(c_id,operation,updateddate)
+select c_id,'Data deleted',GETDATE()
+from deleted
+
+delete from celebrity where c_id=100
+
+select * from brandlog
+
+
+--trigger log for endorsment table
+
+create table endlog(logid numeric identity(100,1),c_id numeric constraint fk_e_log foreign key (c_id) references celebrity(c_id),operation nvarchar(20),updateddate datetime) 
+
+select * from endlog
+
+--insert trigger
+
+create trigger ins_iend
+on endorsments
+for insert
+as
+insert into endlog(c_id,operation,updateddate)
+select c_id,'Data inserted',GETDATE()
+from inserted
+
+insert into endorsments values(5,103)
+
+select * from endlog
+
+--update trigger
+
+create trigger upd_end
+on endorsments
+after update
+as
+insert into endlog(c_id,operation,updateddate)
+select c_id,'Data updated',GETDATE()
+from deleted
+
+update endorsments set brand_id=9 where c_id=108
+
+select * from endlog
+
+--delete trigger
+
+create trigger del_end
+on endorsments
+instead of delete
+as
+insert into endlog(c_id,operation,updateddate)
+select c_id,'Data deleted',GETDATE()
+from deleted
+
+delete from endorsments where c_id=102
+
+select * from brandlog
+
+
+
+
+
